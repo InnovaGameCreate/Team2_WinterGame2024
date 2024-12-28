@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
-public class StartButton : MonoBehaviour
+public class RuleButton : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -17,10 +16,9 @@ public class StartButton : MonoBehaviour
     {
         
     }
-
-    public void GameStartClick()
+    public void RuleStartClick()
     {
-        Debug.Log("ゲームスタート");
-        SceneManager.LoadScene("InGame");
+        Debug.Log("ルール説明画面に移動");
+        SceneManager.LoadScene("Rule");
     }
 }
