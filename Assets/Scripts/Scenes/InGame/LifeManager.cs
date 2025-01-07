@@ -25,7 +25,7 @@ public class LifeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0) && myLifePoint < 4)
+/*        if (Input.GetMouseButtonDown(0) && myLifePoint < 4)
         {
             myLifePoint++;
             myLifeArray[myLifePoint - 1].SetActive(true);
@@ -59,6 +59,6 @@ public class LifeManager : MonoBehaviour
         {
             flaskArray[flaskPoint - 1].SetActive(false);
             flaskPoint--;
-        }
+        }*/
     }
 }
