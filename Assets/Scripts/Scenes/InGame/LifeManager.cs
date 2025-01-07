@@ -12,10 +12,14 @@ public class LifeManager : MonoBehaviour
     public GameObject[] enemyLifeArray = new GameObject[4];
     private int enemyLifePoint = 4;
 
+    [Tooltip("ƒtƒ‰ƒXƒR")]
+    public GameObject[] flaskArray = new GameObject[8];
+    private int flaskPoint = 8;
+
     // Start is called before the first frame update
     void Start()
     {
-    
+        
     }
 
     // Update is called once per frame
@@ -43,6 +47,18 @@ public class LifeManager : MonoBehaviour
         {
             enemyLifeArray[enemyLifePoint - 1].SetActive(false);
             enemyLifePoint--;
+        }
+
+        if (Input.GetMouseButtonDown(0) && flaskPoint < 8)
+        {
+            flaskPoint++;
+            flaskArray[flaskPoint - 1].SetActive(true);
+        }
+
+        else if (Input.GetMouseButtonDown(1) && flaskPoint > 0)
+        {
+            flaskArray[flaskPoint - 1].SetActive(false);
+            flaskPoint--;
         }
     }
 }
