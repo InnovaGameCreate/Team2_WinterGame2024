@@ -1,64 +1,97 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LifeManager : MonoBehaviour
 {
     [Tooltip("自分の体力")]
     public GameObject[] myLifeArray = new GameObject[4];
-    private int myLifePoint = 4;
+    public static int myLifePoint = 4;
 
     [Tooltip("敵の体力")]
     public GameObject[] enemyLifeArray = new GameObject[4];
-    private int enemyLifePoint = 4;
+    public static int enemyLifePoint = 4;
 
     [Tooltip("フラスコ")]
     public GameObject[] flaskArray = new GameObject[8];
-    private int flaskPoint = 8;
+    public static int[] flaskStatus = new int[8];
+    // 0...水、1...毒、2...アイテム、5...フラスコが存在しない
+
+    public float distance = 100f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        for(int i = 0; i < 8 ; i++)
+        {
+            flaskStatus[i] = Random.Range(0, 2);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-/*        if (Input.GetMouseButtonDown(0) && myLifePoint < 4)
+        // 左クリックを取得
+        if (Input.GetMouseButtonDown(0))
         {
-            myLifePoint++;
-            myLifeArray[myLifePoint - 1].SetActive(true);
-        }
+            // クリックしたスクリーン座標をrayに変換
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            // Rayの当たったオブジェクトの情報を格納する
+            RaycastHit hit = new RaycastHit();
+            // オブジェクトにrayが当たった時
+            if (Physics.Raycast(ray, out hit, distance))
+            {
+                // rayが当たったオブジェクトの名前を取得
+                string objectName = hit.collider.gameObject.name;
+                Debug.Log(objectName);
 
-        else if (Input.GetMouseButtonDown(1) && myLifePoint > 0)
-        {
-            myLifeArray[myLifePoint - 1].SetActive(false);
-            myLifePoint--;
-        }
+                if (objectName.Contains("flask"))
+                {
+                    char temp = objectName[5];
+                    int flaskNumber = int.Parse(temp.ToString());
 
-        if (Input.GetMouseButtonDown(0) && enemyLifePoint < 4)
-        {
-            enemyLifePoint++;
-            enemyLifeArray[enemyLifePoint - 1].SetActive(true);
-        }
+                    if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
+                    {
+                        Debug.Log("毒だった");
+                        flaskArray[flaskNumber - 1].SetActive(false);
+                        flaskStatus[flaskNumber - 1] = 5;
+                        myLifeArray[myLifePoint - 1].SetActive(false);
+                        myLifePoint--;
+                        if (myLifePoint <= 0)
+                        {
+                            Debug.Log("ゲームオーバー！");
+                            SceneManager.LoadScene("Result");
+                        }
+                    }
 
-        else if (Input.GetMouseButtonDown(1) && enemyLifePoint > 0)
-        {
-            enemyLifeArray[enemyLifePoint - 1].SetActive(false);
-            enemyLifePoint--;
-        }
+                    else if (flaskStatus[flaskNumber - 1] == 0)
+                    {
+                        Debug.Log("水だった");
+                        flaskArray[flaskNumber - 1].SetActive(false);
+                        flaskStatus[flaskNumber - 1] = 5;
+                    }
 
-        if (Input.GetMouseButtonDown(0) && flaskPoint < 8)
-        {
-            flaskPoint++;
-            flaskArray[flaskPoint - 1].SetActive(true);
-        }
+                    else if (flaskStatus[flaskNumber - 1] == 2)
+                    {
+                        Debug.Log("ランダム効果発動");
+                        flaskArray[flaskNumber - 1].SetActive(false);
+                        flaskStatus[flaskNumber - 1] = 5;
+                    }
+                }
+            }
 
-        else if (Input.GetMouseButtonDown(1) && flaskPoint > 0)
-        {
-            flaskArray[flaskPoint - 1].SetActive(false);
-            flaskPoint--;
-        }*/
+        }
     }
+
+    /*
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        print($"{name}をクリックした");
+
+        CameraChanger.CameraChange();
+    }
+    */
 }
