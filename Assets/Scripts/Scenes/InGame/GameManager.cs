@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class GameManager : MonoBehaviour
 {
     public static bool isPlayerTurn = true;
-    public int round = 0;   // 3ラウンドまで
+    public int round = 1;   // 3ラウンドまで
     public int roop = 0;    // ループ、スコア計算用
 
     // Start is called before the first frame update
@@ -29,9 +29,17 @@ public class GameManager : MonoBehaviour
             while(IsExistFlask())
             {
                 PlayerTurn();
-                if (!IsExistFlask()) break;
+                if (!IsExistFlask())
+                {
+                    roop++;
+                    break;
+                }
                 EnemyTurn();
+                roop++;
             }
+
+            round++; // ラウンドを進める
+            Debug.Log($"ラウンド {round} 終了");
         }
     }
 
