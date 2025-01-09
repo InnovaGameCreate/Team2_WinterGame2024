@@ -1,15 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class PoisonChooser : MonoBehaviour
+public class Rule2Button : MonoBehaviour
 {
     // Start is called before the first frame update
-
-    [Tooltip("ƒtƒ‰ƒXƒR")]
-    public GameObject[] flaskArray = new GameObject[8];
-    private int flaskPoint = 8;
-
     void Start()
     {
         
@@ -19,5 +15,11 @@ public class PoisonChooser : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void Rule2StartClick()
+    {
+        Debug.Log("‘€ìà–¾‰æ–Ê‚ÉˆÚ“®");
+        SceneManager.LoadScene("Rule2", LoadSceneMode.Single);
     }
 }

@@ -1,8 +1,5 @@
-using JetBrains.Annotations;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,62 +7,59 @@ public class GameManager : MonoBehaviour
     public int round = 1;   // 3ラウンドまで
     public int roop = 0;    // ループ、スコア計算用
 
-    // Start is called before the first frame update
     void Start()
     {
-        StartGame();
+        StartCoroutine(StartGame());
     }
 
-    // Update is called once per frame
-    void Update()
+    IEnumerator StartGame()
     {
-
-    }
-
-    void StartGame()
-    {
-        while (round < 4)
+        while (round <= 3)  // 1～3ラウンド
         {
-            while(IsExistFlask())
+            while (IsExistFlask())
             {
-                PlayerTurn();
-                if (!IsExistFlask())
-                {
-                    roop++;
-                    break;
-                }
-                EnemyTurn();
+                yield return StartCoroutine(PlayerTurn());
+
+                if (!IsExistFlask()) break;
+
+                yield return StartCoroutine(EnemyTurn());
                 roop++;
             }
 
-            round++; // ラウンドを進める
+            for (int i = 0; i < 8; i++)
+            {
+                LifeManager.flaskStatus[i] = Random.Range(0, LifeManager.itemNumber);
+                LifeManager.flaskArray[i].SetActive(true);
+            }
             Debug.Log($"ラウンド {round} 終了");
+            round++; // ラウンドを進める
         }
     }
 
     // 盤上にフラスコが残っているか調べる
     bool IsExistFlask()
     {
-        bool exist = true;
-        for(int i = 0; i < 8; i++) {
+        for (int i = 0; i < 8; i++)
+        {
             if (LifeManager.flaskStatus[i] != 5)
             {
-                exist = false; 
-                break;
+                return true; // フラスコが存在する
             }
         }
-        return exist;
+        return false;
     }
 
-    void PlayerTurn()
+    IEnumerator PlayerTurn()
     {
         isPlayerTurn = true;
         Debug.Log("プレイヤーのターン");
+        yield return new WaitForSeconds(3.0f);   // 3秒待機
     }
 
-    void EnemyTurn()
+    IEnumerator EnemyTurn()
     {
         isPlayerTurn = false;
         Debug.Log("敵のターン");
+        yield return new WaitForSeconds(3.0f);   // 3秒待機
     }
 }

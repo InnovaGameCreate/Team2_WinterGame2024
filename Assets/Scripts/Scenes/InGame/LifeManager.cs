@@ -16,18 +16,23 @@ public class LifeManager : MonoBehaviour
     public static int enemyLifePoint = 4;
 
     [Tooltip("フラスコ")]
-    public GameObject[] flaskArray = new GameObject[8];
+    public static GameObject[] flaskArray = new GameObject[8];
     public static int[] flaskStatus = new int[8];
+    public static int itemNumber = 4;
     // 0...水、1...毒、2...アイテム、5...フラスコが存在しない
 
     public float distance = 100f;
+
+    public GameObject GiveButton;
+    public GameObject GetButton;
 
     // Start is called before the first frame update
     void Start()
     {
         for(int i = 0; i < 8 ; i++)
         {
-            flaskStatus[i] = Random.Range(0, 2);
+            flaskStatus[i] = Random.Range(0, itemNumber - 1);
+            flaskArray[i] = GameObject.Find($"flask{i + 1}"); // フラスコをシーン内から取得
         }
     }
 
@@ -53,6 +58,8 @@ public class LifeManager : MonoBehaviour
                     char temp = objectName[5];
                     int flaskNumber = int.Parse(temp.ToString());
 
+                    // 飲むか飲ませるかの条件式を追加
+
                     if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
                     {
                         Debug.Log("毒だった");
@@ -76,7 +83,14 @@ public class LifeManager : MonoBehaviour
 
                     else if (flaskStatus[flaskNumber - 1] == 2)
                     {
-                        Debug.Log("ランダム効果発動");
+                        Debug.Log("ランダム効果1発動");
+                        flaskArray[flaskNumber - 1].SetActive(false);
+                        flaskStatus[flaskNumber - 1] = 5;
+                    }
+
+                    else if (flaskStatus[flaskNumber - 1] == 3)
+                    {
+                        Debug.Log("ランダム効果2発動");
                         flaskArray[flaskNumber - 1].SetActive(false);
                         flaskStatus[flaskNumber - 1] = 5;
                     }

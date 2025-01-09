@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Rule.unity
     guid: fc873d3c13a274241840d1823fae1bf8
   - enabled: 1
+    path: Assets/Scenes/Rule2.unity
+    guid: 750caf160063db745907c1bc15799d9c
+  - enabled: 1
     path: Assets/Scenes/InGame.unity
     guid: 47ea51f2600bf7d488722be1297bac38
   - enabled: 1
