@@ -18,20 +18,23 @@ public class LifeManager : MonoBehaviour
     [Tooltip("フラスコ")]
     public static GameObject[] flaskArray = new GameObject[8];
     public static int[] flaskStatus = new int[8];
-    public static int itemNumber = 4;
-    // 0...水、1...毒、2...アイテム、5...フラスコが存在しない
+    public static int itemNumber = 3;
+    // 0=水、1=毒、2=アイテム、5=フラスコが存在しない
 
     public float distance = 100f;
 
-    public GameObject GiveButton;
-    public GameObject GetButton;
+    public static GameObject GiveButton;     // 相手に飲ませるボタン
+    public static GameObject GetButton;      // 自分が飲むボタン
+    public static GameObject[] itemArray = new GameObject[3];        // アイテム
+    [SerializeField] private GameObject PoisonText;
+    [SerializeField] private GameObject WaterText;
 
     // Start is called before the first frame update
     void Start()
     {
         for(int i = 0; i < 8 ; i++)
         {
-            flaskStatus[i] = Random.Range(0, itemNumber - 1);
+            flaskStatus[i] = Random.Range(0, itemNumber - 1);   // ランダムに効果格納
             flaskArray[i] = GameObject.Find($"flask{i + 1}"); // フラスコをシーン内から取得
         }
     }
@@ -65,6 +68,7 @@ public class LifeManager : MonoBehaviour
                         if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
                         {
                             Debug.Log("毒だった");
+                            StartCoroutine(sleep(PoisonText,1.0f));
                             flaskArray[flaskNumber - 1].SetActive(false);
                             flaskStatus[flaskNumber - 1] = 5;
                             myLifeArray[myLifePoint - 1].SetActive(false);
@@ -72,16 +76,19 @@ public class LifeManager : MonoBehaviour
                             if (myLifePoint <= 0)
                             {
                                 Debug.Log("ゲームオーバー！");
-                                SceneManager.LoadScene("Result");
+                                FadeManager.Instance.LoadScene("Result", 0.3f);
                             }
                         }
 
                         else if (flaskStatus[flaskNumber - 1] == 0)
                         {
                             Debug.Log("水だった");
+                            StartCoroutine(sleep(WaterText, 1.0f));
                             flaskArray[flaskNumber - 1].SetActive(false);
                             flaskStatus[flaskNumber - 1] = 5;
                         }
+
+                        // ↓ランダム効果
 
                         else if (flaskStatus[flaskNumber - 1] == 2)
                         {
@@ -106,12 +113,11 @@ public class LifeManager : MonoBehaviour
         }
     }
 
-    /*
-    public void OnPointerClick(PointerEventData eventData)
+    IEnumerator sleep(GameObject textObject, float x)
     {
-        print($"{name}をクリックした");
-
-        CameraChanger.CameraChange();
+        textObject.SetActive(true);
+        // x秒待つ
+        yield return new WaitForSeconds(x);
+        textObject.SetActive(false);
     }
-    */
 }
