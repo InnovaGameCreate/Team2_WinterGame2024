@@ -26,9 +26,6 @@ public class LifeManager : MonoBehaviour
     public static GameObject GiveButton;     // 相手に飲ませるボタン
     public static GameObject GetButton;      // 自分が飲むボタン
     public static GameObject[] itemArray = new GameObject[3];        // アイテム
-    [SerializeField] private GameObject PoisonText;
-    [SerializeField] private GameObject WaterText;
-    [SerializeField] private GameObject RandomEffectText;
 
     // Start is called before the first frame update
     void Start()
@@ -69,7 +66,7 @@ public class LifeManager : MonoBehaviour
                         if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
                         {
                             Debug.Log("毒だった");
-                            StartCoroutine(sleep(PoisonText,1.0f));
+                            StartCoroutine(GameManager.InfoDisplay("- Poison -", 1));
                             flaskArray[flaskNumber - 1].SetActive(false);
                             flaskStatus[flaskNumber - 1] = 5;
                             myLifeArray[myLifePoint - 1].SetActive(false);
@@ -84,7 +81,7 @@ public class LifeManager : MonoBehaviour
                         else if (flaskStatus[flaskNumber - 1] == 0)
                         {
                             Debug.Log("水だった");
-                            StartCoroutine(sleep(WaterText, 1.0f));
+                            StartCoroutine(GameManager.InfoDisplay("- Water -", 1));
                             flaskArray[flaskNumber - 1].SetActive(false);
                             flaskStatus[flaskNumber - 1] = 5;
                         }
@@ -94,7 +91,7 @@ public class LifeManager : MonoBehaviour
                         else if (flaskStatus[flaskNumber - 1] == 2)
                         {
                             Debug.Log("ランダム効果発動");
-                            StartCoroutine(sleep(RandomEffectText, 1.0f));
+                            StartCoroutine(GameManager.InfoDisplay("- Random Effect -", 1));
                             flaskArray[flaskNumber - 1].SetActive(false);
                             flaskStatus[flaskNumber - 1] = 5;
                         }
@@ -105,13 +102,5 @@ public class LifeManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    IEnumerator sleep(GameObject textObject, float x)
-    {
-        textObject.SetActive(true);
-        // x秒待つ
-        yield return new WaitForSeconds(x);
-        textObject.SetActive(false);
     }
 }

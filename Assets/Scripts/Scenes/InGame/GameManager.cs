@@ -11,10 +11,25 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameStart;
     [SerializeField] private GameObject timerText;
     public Text countdownText; // カウントダウン用
-    public Text roundText; // ラウンド通知用
+    public static GameObject infoObject; // 進行通知用
+    public static Text infoText; // 進行通知用
     void Start()
     {
         StartCoroutine(StartGame());
+    }
+
+    void Awake()
+    {
+        // infoObjectとinfoTextがnullの場合は初期化
+        if (infoObject == null)
+        {
+            infoObject = GameObject.Find("InfoObject"); // シーン内のオブジェクトを探して設定
+        }
+
+        if (infoText == null)
+        {
+            infoText = infoObject.GetComponentInChildren<Text>(); // infoObjectの子にTextコンポーネントを取得
+        }
     }
 
     IEnumerator StartGame()
@@ -48,10 +63,29 @@ public class GameManager : MonoBehaviour
             ResetFlaskStatus();
             Debug.Log($"ラウンド {round} 終了");
             round++; // ラウンドを進める
-            StartCoroutine(RoundDisplay(round, 1.0f));  // 次のラウンド表示
+
+            string roundName = "うおw";
+            switch(round)
+            {
+                case 1:
+                    roundName = "1st"; break;
+                case 2:
+                    roundName = "2nd"; break;
+                case 3:
+                    roundName = "Final"; break;
+                default:
+                    break;
+            }
+
+            yield return new WaitForSeconds(1);
+            StartCoroutine(InfoDisplay($"-{roundName} Round -", 4));
+            yield return new WaitForSeconds(4);
+            Debug.Log($"Displaying round info: -{roundName} Round -");
         }
 
-        // 3ラウンド終了時の動作書く
+        // 3ラウンド終了時の動作
+        Debug.Log("リザルト画面に移動");
+        FadeManager.Instance.LoadScene("Result", 0.5f);
     }
 
     // 盤上にフラスコが残っているか調べる
@@ -72,6 +106,7 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = true;
         Debug.Log("プレイヤーのターン");
         CameraChanger.CameraChange();
+        StartCoroutine(InfoDisplay("- Your Turn -", 1));
 
         timerText.SetActive(true);
         int remainingTime = 10; // 10秒カウントダウン
@@ -99,8 +134,10 @@ public class GameManager : MonoBehaviour
         isPlayerTurn = false;
         Debug.Log("敵のターン");
         CameraChanger.CameraChange();
+        yield return new WaitForSeconds(1);
+        StartCoroutine(InfoDisplay("- Enemy's Turn -", 1));
         // 敵のアクションを書く
-        yield return new WaitForSeconds(5.0f);   // 5秒待機
+        yield return new WaitForSeconds(4.0f);   // 待機
     }
 
     // **フラスコをリセットするメソッド**
@@ -113,20 +150,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator RoundDisplay(int r, float x)
+    
+    public static IEnumerator InfoDisplay(string s, float x)
     {
-        if (r == 2)
-        {
-            roundText.text = $"- 2nd Round -";
-            yield return new WaitForSeconds(x);
-            roundText.text = "";
-        }
-
-        if (r == 3)
-        {
-            roundText.text = $"- Final Round -";
-            yield return new WaitForSeconds(x);
-            roundText.text = "";
-        }
+        infoText.text = s;
+        infoObject.SetActive(true);
+        yield return new WaitForSeconds(x);
+        infoObject.SetActive(false);
     }
 }
