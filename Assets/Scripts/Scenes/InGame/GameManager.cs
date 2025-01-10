@@ -5,12 +5,13 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public static bool isPlayerTurn = true;
+    public static bool isPlayerTurn = false;
     public int round = 1;   // 3ラウンドまで
     public int roop = 0;    // ループ、スコア計算用
     [SerializeField] private GameObject gameStart;
     [SerializeField] private GameObject timerText;
     public Text countdownText; // カウントダウン用
+    public Text roundText; // ラウンド通知用
     void Start()
     {
         StartCoroutine(StartGame());
@@ -24,27 +25,30 @@ public class GameManager : MonoBehaviour
 
         while (round <= 3)  // 1～3ラウンド
         {
+            bool isExistFlask =IsExistFlask();
+
             while (IsExistFlask())
             {
-                yield return StartCoroutine(PlayerTurn());
-
-                if (!IsExistFlask())
+                if (isExistFlask)
                 {
-                    CameraChanger.CameraChange();
-                    break;
+                    yield return StartCoroutine(PlayerTurn()); // プレイヤーターン
+
+                    if (!IsExistFlask()) // フラスコがなくなったら敵に切り替え
+                    {
+                        CameraChanger.CameraChange();
+                        break;
+                    }
                 }
 
-                yield return StartCoroutine(EnemyTurn());
+                yield return StartCoroutine(EnemyTurn()); // 敵ターン
                 roop++;
             }
 
-            for (int i = 0; i < 8; i++)
-            {
-                LifeManager.flaskStatus[i] = Random.Range(0, LifeManager.itemNumber);
-                LifeManager.flaskArray[i].SetActive(true);
-            }
+            // **ラウンドのリセット処理**
+            ResetFlaskStatus();
             Debug.Log($"ラウンド {round} 終了");
             round++; // ラウンドを進める
+            StartCoroutine(RoundDisplay(round, 1.0f));  // 次のラウンド表示
         }
 
         // 3ラウンド終了時の動作書く
@@ -97,5 +101,32 @@ public class GameManager : MonoBehaviour
         CameraChanger.CameraChange();
         // 敵のアクションを書く
         yield return new WaitForSeconds(5.0f);   // 5秒待機
+    }
+
+    // **フラスコをリセットするメソッド**
+    void ResetFlaskStatus()
+    {
+        for (int i = 0; i < 8; i++)
+        {
+            LifeManager.flaskStatus[i] = Random.Range(0, LifeManager.itemNumber);
+            LifeManager.flaskArray[i].SetActive(true);
+        }
+    }
+
+    IEnumerator RoundDisplay(int r, float x)
+    {
+        if (r == 2)
+        {
+            roundText.text = $"- 2nd Round -";
+            yield return new WaitForSeconds(x);
+            roundText.text = "";
+        }
+
+        if (r == 3)
+        {
+            roundText.text = $"- Final Round -";
+            yield return new WaitForSeconds(x);
+            roundText.text = "";
+        }
     }
 }

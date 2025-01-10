@@ -28,13 +28,14 @@ public class LifeManager : MonoBehaviour
     public static GameObject[] itemArray = new GameObject[3];        // アイテム
     [SerializeField] private GameObject PoisonText;
     [SerializeField] private GameObject WaterText;
+    [SerializeField] private GameObject RandomEffectText;
 
     // Start is called before the first frame update
     void Start()
     {
         for(int i = 0; i < 8 ; i++)
         {
-            flaskStatus[i] = Random.Range(0, itemNumber - 1);   // ランダムに効果格納
+            flaskStatus[i] = Random.Range(0, itemNumber);   // ランダムに効果格納
             flaskArray[i] = GameObject.Find($"flask{i + 1}"); // フラスコをシーン内から取得
         }
     }
@@ -92,17 +93,10 @@ public class LifeManager : MonoBehaviour
 
                         else if (flaskStatus[flaskNumber - 1] == 2)
                         {
-                            Debug.Log("ランダム効果1発動");
+                            Debug.Log("ランダム効果発動");
+                            StartCoroutine(sleep(RandomEffectText, 1.0f));
                             flaskArray[flaskNumber - 1].SetActive(false);
                             flaskStatus[flaskNumber - 1] = 5;
-                        }
-
-                        else if (flaskStatus[flaskNumber - 1] == 3)
-                        {
-                            Debug.Log("ランダム効果2発動");
-                            flaskArray[flaskNumber - 1].SetActive(false);
-                            flaskStatus[flaskNumber - 1] = 5;
-
                         }
 
                         GameManager.isPlayerTurn = false;
