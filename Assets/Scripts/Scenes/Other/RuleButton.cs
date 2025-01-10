@@ -19,6 +19,6 @@ public class RuleButton : MonoBehaviour
     public void RuleStartClick()
     {
         Debug.Log("ƒ‹[ƒ‹à–¾‰æ–Ê‚ÉˆÚ“®");
-        SceneManager.LoadScene("Rule");
+        FadeManager.Instance.LoadScene("Rule", 1.0f);
     }
 }

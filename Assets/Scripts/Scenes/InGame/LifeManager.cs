@@ -39,64 +39,70 @@ public class LifeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 左クリックを取得
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.isPlayerTurn)
         {
-            // クリックしたスクリーン座標をrayに変換
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // Rayの当たったオブジェクトの情報を格納する
-            RaycastHit hit = new RaycastHit();
-            // オブジェクトにrayが当たった時
-            if (Physics.Raycast(ray, out hit, distance))
+            // 左クリックを取得
+            if (Input.GetMouseButtonDown(0))
             {
-                // rayが当たったオブジェクトの名前を取得
-                string objectName = hit.collider.gameObject.name;
-                Debug.Log(objectName);
-
-                if (objectName.Contains("flask"))
+                // クリックしたスクリーン座標をrayに変換
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                // Rayの当たったオブジェクトの情報を格納する
+                RaycastHit hit = new RaycastHit();
+                // オブジェクトにrayが当たった時
+                if (Physics.Raycast(ray, out hit, distance))
                 {
-                    char temp = objectName[5];
-                    int flaskNumber = int.Parse(temp.ToString());
+                    // rayが当たったオブジェクトの名前を取得
+                    string objectName = hit.collider.gameObject.name;
+                    Debug.Log(objectName);
 
-                    // 飲むか飲ませるかの条件式を追加
-
-                    if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
+                    if (objectName.Contains("flask"))
                     {
-                        Debug.Log("毒だった");
-                        flaskArray[flaskNumber - 1].SetActive(false);
-                        flaskStatus[flaskNumber - 1] = 5;
-                        myLifeArray[myLifePoint - 1].SetActive(false);
-                        myLifePoint--;
-                        if (myLifePoint <= 0)
+                        char temp = objectName[5];
+                        int flaskNumber = int.Parse(temp.ToString());
+
+                        // 飲むか飲ませるかの条件式を追加
+
+                        if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
                         {
-                            Debug.Log("ゲームオーバー！");
-                            SceneManager.LoadScene("Result");
+                            Debug.Log("毒だった");
+                            flaskArray[flaskNumber - 1].SetActive(false);
+                            flaskStatus[flaskNumber - 1] = 5;
+                            myLifeArray[myLifePoint - 1].SetActive(false);
+                            myLifePoint--;
+                            if (myLifePoint <= 0)
+                            {
+                                Debug.Log("ゲームオーバー！");
+                                SceneManager.LoadScene("Result");
+                            }
                         }
+
+                        else if (flaskStatus[flaskNumber - 1] == 0)
+                        {
+                            Debug.Log("水だった");
+                            flaskArray[flaskNumber - 1].SetActive(false);
+                            flaskStatus[flaskNumber - 1] = 5;
+                        }
+
+                        else if (flaskStatus[flaskNumber - 1] == 2)
+                        {
+                            Debug.Log("ランダム効果1発動");
+                            flaskArray[flaskNumber - 1].SetActive(false);
+                            flaskStatus[flaskNumber - 1] = 5;
+                        }
+
+                        else if (flaskStatus[flaskNumber - 1] == 3)
+                        {
+                            Debug.Log("ランダム効果2発動");
+                            flaskArray[flaskNumber - 1].SetActive(false);
+                            flaskStatus[flaskNumber - 1] = 5;
+
+                        }
+
+                        GameManager.isPlayerTurn = false;
                     }
 
-                    else if (flaskStatus[flaskNumber - 1] == 0)
-                    {
-                        Debug.Log("水だった");
-                        flaskArray[flaskNumber - 1].SetActive(false);
-                        flaskStatus[flaskNumber - 1] = 5;
-                    }
-
-                    else if (flaskStatus[flaskNumber - 1] == 2)
-                    {
-                        Debug.Log("ランダム効果1発動");
-                        flaskArray[flaskNumber - 1].SetActive(false);
-                        flaskStatus[flaskNumber - 1] = 5;
-                    }
-
-                    else if (flaskStatus[flaskNumber - 1] == 3)
-                    {
-                        Debug.Log("ランダム効果2発動");
-                        flaskArray[flaskNumber - 1].SetActive(false);
-                        flaskStatus[flaskNumber - 1] = 5;
-                    }
                 }
             }
-
         }
     }
 

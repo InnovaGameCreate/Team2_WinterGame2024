@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +7,7 @@ public class GameManager : MonoBehaviour
     public static bool isPlayerTurn = true;
     public int round = 1;   // 3ラウンドまで
     public int roop = 0;    // ループ、スコア計算用
+    [SerializeField] private GameObject gameStart;
 
     void Start()
     {
@@ -14,6 +16,10 @@ public class GameManager : MonoBehaviour
 
     IEnumerator StartGame()
     {
+        gameStart.SetActive(true);
+        yield return new WaitForSeconds(3.0f);  // 3秒待機
+        gameStart.SetActive(false);
+
         while (round <= 3)  // 1～3ラウンド
         {
             while (IsExistFlask())
@@ -53,13 +59,28 @@ public class GameManager : MonoBehaviour
     {
         isPlayerTurn = true;
         Debug.Log("プレイヤーのターン");
-        yield return new WaitForSeconds(3.0f);   // 3秒待機
+        CameraChanger.CameraChange();
+
+        float elapsedTime = 0f;
+        float waitTime = 10.0f;
+
+        while (elapsedTime < waitTime)
+        {
+            if (!isPlayerTurn)
+            {
+                yield break; // 即時終了
+            }
+
+            yield return null; // 1フレーム待機
+            elapsedTime += Time.deltaTime;
+        }
     }
 
     IEnumerator EnemyTurn()
     {
         isPlayerTurn = false;
         Debug.Log("敵のターン");
-        yield return new WaitForSeconds(3.0f);   // 3秒待機
+        CameraChanger.CameraChange();
+        yield return new WaitForSeconds(5.0f);   // 5秒待機
     }
 }

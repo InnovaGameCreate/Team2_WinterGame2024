@@ -23,7 +23,7 @@ namespace Scenes.Title
         public void GameStartClick()
         {
             Debug.Log("ゲームスタート");
-            SceneManager.LoadScene("InGame");
+            FadeManager.Instance.LoadScene("InGame", 1.0f);
         }
     }
 }

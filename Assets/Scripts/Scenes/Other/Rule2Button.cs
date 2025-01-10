@@ -20,6 +20,6 @@ public class Rule2Button : MonoBehaviour
     public void Rule2StartClick()
     {
         Debug.Log("‘€ìà–¾‰æ–Ê‚ÉˆÚ“®");
-        SceneManager.LoadScene("Rule2", LoadSceneMode.Single);
+        FadeManager.Instance.LoadScene("Rule2", 1.0f);
     }
 }
