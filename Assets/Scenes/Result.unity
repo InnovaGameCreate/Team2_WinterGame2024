@@ -1297,7 +1297,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 1/9/2025
+  m_Text: X/X/XXXX
 --- !u!222 &1883267631
 CanvasRenderer:
   m_ObjectHideFlags: 0
