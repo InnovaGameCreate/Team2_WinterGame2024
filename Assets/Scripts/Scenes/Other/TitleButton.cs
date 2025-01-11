@@ -20,5 +20,6 @@ public class TitleButton : MonoBehaviour
     {
         Debug.Log("ƒ^ƒCƒgƒ‹‰æ–Ê‚É–ß‚Á‚½");
         FadeManager.Instance.LoadScene("Title", 1.0f);
+        GameManager.ResetGame();
     }
 }

@@ -6,16 +6,37 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static bool isPlayerTurn = false;
-    public int round = 1;   // 3ラウンドまで
-    public int roop = 0;    // ループ、スコア計算用
+    public static int round = 1;   // 3ラウンドまで
+    public static int roop = 0;    // ループ、スコア計算用
     [SerializeField] private GameObject gameStart;
     [SerializeField] private GameObject timerText;
     public Text countdownText; // カウントダウン用
     public static GameObject infoObject; // 進行通知用
     public static Text infoText; // 進行通知用
+    public static int isWin = 0;   // 勝利判定用(0=戦闘中、1=敗北、2=勝利、3=一定ラウンド経過、逃げ切った(引き分け)) (仮)
     void Start()
     {
         StartCoroutine(StartGame());
+    }
+
+    void Update()
+    {
+        // 勝敗を判定
+        switch (isWin)
+        {
+            case 1:
+                Debug.Log("ゲームオーバー！");
+                FadeManager.Instance.LoadScene("Result", 0.3f);
+                break;
+            case 2:
+                Debug.Log("勝利！");
+                FadeManager.Instance.LoadScene("Result", 0.3f);
+                break;
+            case 3:
+                Debug.Log("引き分け");
+                FadeManager.Instance.LoadScene("Result", 0.3f);
+                break;
+        }
     }
 
     void Awake()
@@ -54,7 +75,6 @@ public class GameManager : MonoBehaviour
                         break;
                     }
                 }
-
                 yield return StartCoroutine(EnemyTurn()); // 敵ターン
                 roop++;
             }
@@ -64,7 +84,7 @@ public class GameManager : MonoBehaviour
             Debug.Log($"ラウンド {round} 終了");
             round++; // ラウンドを進める
 
-            string roundName = "うおw";
+            string roundName = "1st";
             switch(round)
             {
                 case 1:
@@ -78,13 +98,14 @@ public class GameManager : MonoBehaviour
             }
 
             yield return new WaitForSeconds(1);
-            StartCoroutine(InfoDisplay($"-{roundName} Round -", 4));
+            StartCoroutine(InfoDisplay($"- {roundName} Round -", 4));
             yield return new WaitForSeconds(4);
-            Debug.Log($"Displaying round info: -{roundName} Round -");
+            Debug.Log($"Displaying round info: - {roundName} Round -");
         }
-        
+
         // 3ラウンド終了時の動作
         Debug.Log("リザルト画面に移動");
+        isWin = 3;  // 逃げ切った=引き分け
         FadeManager.Instance.LoadScene("Result", 0.5f);
     }
 
@@ -157,5 +178,14 @@ public class GameManager : MonoBehaviour
         infoObject.SetActive(true);
         yield return new WaitForSeconds(x);
         infoObject.SetActive(false);
+    }
+
+    public static void ResetGame()
+    {
+        GameManager.isWin = 0;
+        LifeManager.myLifePoint = 4;
+        LifeManager.enemyLifePoint = 4;
+        GameManager.round = 1;
+        GameManager.roop = 0;
     }
 }

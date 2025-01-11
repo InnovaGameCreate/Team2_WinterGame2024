@@ -24,6 +24,7 @@ namespace Scenes.Title
         {
             Debug.Log("ゲームスタート");
             FadeManager.Instance.LoadScene("InGame", 1.0f);
+            GameManager.ResetGame();
         }
     }
 }

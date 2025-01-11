@@ -71,11 +71,6 @@ public class LifeManager : MonoBehaviour
                             flaskStatus[flaskNumber - 1] = 5;
                             myLifeArray[myLifePoint - 1].SetActive(false);
                             myLifePoint--;
-                            if (myLifePoint <= 0)
-                            {
-                                Debug.Log("ƒQ[ƒ€ƒI[ƒo[I");
-                                FadeManager.Instance.LoadScene("Result", 0.3f);
-                            }
                         }
 
                         else if (flaskStatus[flaskNumber - 1] == 0)
@@ -101,6 +96,18 @@ public class LifeManager : MonoBehaviour
 
                 }
             }
+        }
+
+        // ”s–k
+        if(myLifePoint <= 0)
+        {
+            GameManager.isWin = 1;  // ”s–k
+        }
+
+        // Ÿ—˜
+        if(enemyLifePoint <= 0)
+        {
+            GameManager.isWin = 2;  // Ÿ—˜
         }
     }
 }
