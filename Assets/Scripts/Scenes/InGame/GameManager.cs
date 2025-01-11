@@ -82,7 +82,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(4);
             Debug.Log($"Displaying round info: -{roundName} Round -");
         }
-
+        
         // 3ラウンド終了時の動作
         Debug.Log("リザルト画面に移動");
         FadeManager.Instance.LoadScene("Result", 0.5f);
