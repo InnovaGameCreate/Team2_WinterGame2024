@@ -122,6 +122,81 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &139141442
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 139141443}
+  - component: {fileID: 139141445}
+  - component: {fileID: 139141444}
+  m_Layer: 5
+  m_Name: Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &139141443
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139141442}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.67379797, y: 0.8930494, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1555837301}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 74, y: -2}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &139141444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139141442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &139141445
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 139141442}
+  m_CullTransparentMesh: 1
 --- !u!1 &152660467
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,7 +323,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -68, y: 214}
+  m_AnchoredPosition: {x: -126, y: 165}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &315999587
@@ -264,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -272,7 +347,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: bbb324ae8752c9745934059ab959318b, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -284,10 +359,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u30DE\u30CD\u30FC\u30B8\u30E3\u30FC\n\u5CA1\u7530 \u4F91\u8F1D\n\n\u30D7\u30E9\u30F3\u30CA\u30FC\n\u5927\u897F
-    \u65E5\u5948\n\n\u30D7\u30ED\u30B0\u30E9\u30E0\n\u5CA1\u7530 \u4F91\u8F1D\n\u9060\u85E4
-    \u4F51\u771F\n\n3D\u30E2\u30C7\u30EB\n\u5927\u7A7A \u62D3\u6D77\r\n\u5DDD\u7AEF
-    \u60A0\u98DB\r\n\u5C39 \u512A\u98AF"
+  m_Text: "- \u30DE\u30CD\u30FC\u30B8\u30E3\u30FC -\n\u5CA1\u7530 \u4F91\u8F1D\n\n-
+    \u30D7\u30E9\u30F3\u30CA\u30FC -\n\u5927\u897F \u65E5\u5948\n\n- 3D\u30E2\u30C7\u30EB
+    -\n\u5927\u7A7A \u62D3\u6D77\r\n\u5DDD\u7AEF \u60A0\u98DB\r\n\u5C39 \u512A\u98AF"
 --- !u!222 &315999588
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -532,7 +606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 243, y: 165}
+  m_AnchoredPosition: {x: 130, y: 165}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &913447085
@@ -548,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -556,7 +630,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: bbb324ae8752c9745934059ab959318b, type: 3}
     m_FontSize: 30
     m_FontStyle: 0
     m_BestFit: 0
@@ -568,8 +642,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: "\u30A4\u30E9\u30B9\u30C8\n\u85AC\u5E2B\u795E \u9EBB\u90A3\r\n\n\u30AA\u30FC\u30C7\u30A3\u30AA\r\n\u7B39\u5CA1
-    \u7950 \u6C70\r\n\u540D\u9808 \u76F4\u592A\u90CE\n\n\u52B9\u679C\u97F3\u30E9\u30DC(\u4EEE)\nUnity-FadeManager\niTween"
+  m_Text: "- \u30D7\u30ED\u30B0\u30E9\u30E0 -\n\u5CA1\u7530 \u4F91\u8F1D\n\u9060\u85E4
+    \u4F51\u771F\nUnity-FadeManager\niTween\n\n- \u30A4\u30E9\u30B9\u30C8 -\n\u85AC\u5E2B\u795E
+    \u9EBB\u90A3\r\n\n- \u30AA\u30FC\u30C7\u30A3\u30AA\r -\n\u7B39\u5CA1 \u7950\u6C70\r\n\u540D\u9808
+    \u76F4\u592A\u90CE\n\u52B9\u679C\u97F3\u30E9\u30DC"
 --- !u!222 &913447086
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -779,6 +855,7 @@ RectTransform:
   m_Children:
   - {fileID: 2014526888}
   - {fileID: 531825270}
+  - {fileID: 139141443}
   - {fileID: 315999586}
   - {fileID: 913447084}
   m_Father: {fileID: 0}
@@ -939,7 +1016,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7bdf6ef94814d9f46a8c01f79e1a05c3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9337ba97578cad44ca24ebf1bc651726, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
