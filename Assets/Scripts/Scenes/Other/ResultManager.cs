@@ -78,7 +78,7 @@ public class ResultManager : MonoBehaviour
     {
         resultText.text = message;
         resultObject.SetActive(true);
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(10);
         resultObject.SetActive(false);
     }
 
