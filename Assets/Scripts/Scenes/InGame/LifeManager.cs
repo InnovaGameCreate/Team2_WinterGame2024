@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -26,6 +27,7 @@ public class LifeManager : MonoBehaviour
     public static GameObject GiveButton;     // 相手に飲ませるボタン
     public static GameObject GetButton;      // 自分が飲むボタン
     public static GameObject[] itemArray = new GameObject[3];        // アイテム
+    public static bool [] IsUsing = new bool[] { false };
 
     // Start is called before the first frame update
     void Start()
@@ -55,12 +57,15 @@ public class LifeManager : MonoBehaviour
                     // rayが当たったオブジェクトの名前を取得
                     string objectName = hit.collider.gameObject.name;
                     Debug.Log(objectName);
+                    
 
                     if (objectName.Contains("flask"))
                     {
                         char temp = objectName[5];
                         int flaskNumber = int.Parse(temp.ToString());
 
+                        StartCoroutine(Sleep(4));
+                        AnimationTriggerON(objectName);
                         // 飲むか飲ませるかの条件式を追加
 
                         if (flaskStatus[flaskNumber - 1] == 1 && myLifePoint > 0)
@@ -108,6 +113,20 @@ public class LifeManager : MonoBehaviour
         if(enemyLifePoint <= 0)
         {
             GameManager.isWin = 2;  // 勝利
+        }
+    }
+
+    IEnumerator Sleep(float x)
+    {
+        yield return new WaitForSeconds(x);
+    }
+
+    void AnimationTriggerON(string x)
+    {
+        if (x[0] == 'f') {
+            int flasktemp = int.Parse(x[6].ToString());
+            IsUsing[flasktemp] = true;
+
         }
     }
 }
