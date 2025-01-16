@@ -26,6 +26,8 @@ public class LifeManager : MonoBehaviour
     public static GameObject GiveButton;     // 相手に飲ませるボタン
     public static GameObject GetButton;      // 自分が飲むボタン
     public static GameObject[] itemArray = new GameObject[3];        // アイテム
+    public static bool[] isUsingFlask = new bool[7];
+    public static int flaskNumber = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +61,8 @@ public class LifeManager : MonoBehaviour
                     if (objectName.Contains("flask"))
                     {
                         char temp = objectName[5];
-                        int flaskNumber = int.Parse(temp.ToString());
+                        flaskNumber = int.Parse(temp.ToString());
+                        isUsingFlask[flaskNumber] = true;
 
                         // 飲むか飲ませるかの条件式を追加
 
@@ -91,6 +94,7 @@ public class LifeManager : MonoBehaviour
                             flaskStatus[flaskNumber - 1] = 5;
                         }
 
+                        isUsingFlask[flaskNumber] = false;
                         GameManager.isPlayerTurn = false;
                     }
 
