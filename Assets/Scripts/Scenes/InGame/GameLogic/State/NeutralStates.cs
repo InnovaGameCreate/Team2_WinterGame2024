@@ -68,7 +68,8 @@ public class RoundRoop : StateBase
         ///////////////////////////////////////ボトル生成
         byte waterNum = (byte)UnityEngine.Random.Range(1,5);
         byte poisonNum = (byte)UnityEngine.Random.Range(1, 5);
-        bool randomFlask = ((byte)UnityEngine.Random.Range(0, 4) == 0);
+        //bool randomFlask = ((byte)UnityEngine.Random.Range(0, 4) == 0);
+        bool randomFlask = false;//ランダム実装前なので一次的にわかないようにしている
 
         _status.FlaskReset();//フラスコをリセット
 
@@ -92,7 +93,7 @@ public class RoundRoop : StateBase
 
 public class GameOver : StateBase
 {
-    //シーンローディング
+   //シーンローディングせよ
 }
 
 public class GameClear : StateBase
