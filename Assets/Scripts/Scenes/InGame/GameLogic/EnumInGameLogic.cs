@@ -131,5 +131,6 @@ public enum GameState : byte{
 
     EnemyDead,
     
-    Victry,
+    GameOver,
+    GameClear,
 }
