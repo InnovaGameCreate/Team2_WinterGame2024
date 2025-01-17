@@ -8,7 +8,7 @@ public class SoundView : MonoBehaviour
 {
     public void FlaskDrink() { 
     //ƒtƒ‰ƒXƒR‚ðˆù‚ÞŒø‰Ê‰¹
-    
+        
     }
 
     public void PoisonDrink() { 

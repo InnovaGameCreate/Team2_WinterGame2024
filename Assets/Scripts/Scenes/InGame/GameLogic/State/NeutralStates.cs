@@ -21,6 +21,7 @@ public class StartGame : StateBase
 
     private async UniTaskVoid StateBehaviour(CancellationToken token) {
         await UniTask.Delay(100, cancellationToken: token);
+        Debug.Log("ゲーム開始");
         _status.SetRound(1);
         _status.SetGameState(GameState.StartRound);
     }
@@ -42,7 +43,12 @@ public class RoundStart : StateBase
     private async UniTaskVoid StateBehaviour(CancellationToken token)
     {
         await UniTask.Delay(100, cancellationToken: token);
-        _status.SetRound(1);
+        ////////////////////////////////ここにフラスコの設置を行う
+        Debug.LogWarning("ランダムフラスコ実装せよ");
+
+
+
+        Debug.Log(_status.Round + "ラウンド開始 ");
         _status.SetGameState(GameState.PlayerTurnStart);
     }
 }

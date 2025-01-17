@@ -67,7 +67,7 @@ public enum GameState : byte{
     PlayerTestsSelect,
     PlayerUsingSleepingPill,
 
-    PlayerSelectedBottle,
+    PlayerSelectedFlask,
     PlayerSelectPerson,
 
     //PP=PlayertoPlayer PE=PlayertoEnemy EE=EnemytoEnemy EP=EnemytoPlayer
@@ -105,7 +105,7 @@ public enum GameState : byte{
     EnemyTestsSelect,
     EnemyUsingSleepingPill,
 
-    EnemySelectedBottle,
+    EnemySelectedFlask,
     //EnemySelectDrink,
 
     //PP=PlayertoPlayer PE=PlayertoEnemy EE=EnemytoEnemy EP=EnemytoPlayer

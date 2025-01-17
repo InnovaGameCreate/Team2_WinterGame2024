@@ -166,6 +166,15 @@ public class GameStatus : MonoBehaviour
     {
         _nowGameState.Value = state;
     }
+
+    public void SetScore(int score) { 
+        _score.Value = score;
+    }
+
+
+    public void AddScore(int score) { 
+        _score.Value += score;
+    }
 }
 
 public struct FlaskDate 
