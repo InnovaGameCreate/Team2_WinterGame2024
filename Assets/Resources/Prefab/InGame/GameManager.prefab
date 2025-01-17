@@ -62,6 +62,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ca7254dcd40ae41b6bad9ca7f70954, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _gameStatus: {fileID: 5543364711634057483}
+  _gameCommandManager: {fileID: 3658397966964866121}
 --- !u!114 &5543364711634057483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +76,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb2e9b01dd137de41bd8b8f7f8219732, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerHp:
+    value: 0
+  _enemyHp:
+    value: 0
+  _score:
+    value: 0
+  _nowGameState:
+    value: 0
 --- !u!114 &3658397966964866121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,3 +96,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10e31ebdb4917a041a6754bacaca90f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _keyComand: 0
+  _debugMode: 0

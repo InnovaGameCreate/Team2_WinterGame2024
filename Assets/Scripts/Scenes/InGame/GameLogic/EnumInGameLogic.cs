@@ -68,7 +68,7 @@ public enum GameState : byte{
     PlayerUsingSleepingPill,
 
     PlayerSelectedBottle,
-    PlayerSelectDrink,
+    PlayerSelectPerson,
 
     //PP=PlayertoPlayer PE=PlayertoEnemy EE=EnemytoEnemy EP=EnemytoPlayer
     PPWater,
@@ -106,7 +106,7 @@ public enum GameState : byte{
     EnemyUsingSleepingPill,
 
     EnemySelectedBottle,
-    EnemySelectDrink,
+    //EnemySelectDrink,
 
     //PP=PlayertoPlayer PE=PlayertoEnemy EE=EnemytoEnemy EP=EnemytoPlayer
     EEWater,
@@ -131,5 +131,6 @@ public enum GameState : byte{
 
     EnemyDead,
     
-    Victry,
+    GameOver,
+    GameClear,
 }
