@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UniRx;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ public class GameStateManager : MonoBehaviour
     [SerializeField]private GameStatus _gameStatus;
     [SerializeField]private GameCommandManager _gameCommandManager;
 
-
+    private CancellationToken token;
 
     //###############
     //Stateから発行されるイベント
@@ -62,8 +63,18 @@ public class GameStateManager : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {
-        
+    {       
+        token = new CancellationTokenSource().Token;
+
+        //ここでスクリプトを作る
+
+
+
+
+
+
+
+        _gameStatus.SetGameState(GameState.StartGame);
     }
 
     // Update is called once per frame

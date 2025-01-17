@@ -10,31 +10,31 @@ public class GameStatus : MonoBehaviour
     /// <summary>
     /// レイヤーの選択したボトル
     /// </summary>
-    public int PlayerSelectFlask { get; }
+    public byte PlayerSelectFlask { get; private set; }
 
     /// <summary>
     /// プレイヤーの選択したアイテム
     /// </summary>
-    public int PlayerSelectItem { get; }
+    public byte PlayerSelectItem { get; private set; }
     /// <summary>
     /// プレイヤーの誰が飲むべきかの指定
     /// </summary>
-    public Person PlayerSelectDrink { get; }
+    public Person PlayerSelectPerson { get; private set; }
 
-    public int EnemySelectFlask { get; }
+    public byte EnemySelectFlask { get; private set; }
 
-    public int EnemySelectItem { get; }
+    public byte EnemySelectItem { get; private set; }
 
-    public Person EnemySelectDrink { get; }
-
-
-    public bool PlayerUsingSerum { get; }
-    public bool EnemyUsingSerum { get; }
-
-    public bool PlayerSleep { get;}
-    public bool EnemySleep { get; }
+    public Person EnemySelectPerson { get; private set; }
 
 
+    public bool PlayerUsingSerum { get; private set; }
+    public bool EnemyUsingSerum { get; private set; }
+
+    public bool PlayerSleep { get; private set; }
+    public bool EnemySleep { get; private set; }
+
+    public byte Round { get; private set; }
 
 
     //####################################
@@ -104,6 +104,67 @@ public class GameStatus : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void SetPlayerSelectFlask(byte num) { 
+        PlayerSelectFlask = num;
+    }
+
+    public void SetEnemySelectFlask(byte num) { 
+        EnemySelectFlask = num;
+    }
+
+    public void SetPlayerSelectItem(byte num){
+        PlayerSelectItem = num;
+    }
+
+    public void SetEnemySelectItem(byte num) { 
+        EnemySelectItem = num;
+    }
+
+    public void SetPlayerSelectPerson(Person person) { 
+        PlayerSelectPerson = person;
+    }
+
+    public void SetEnemySelectPerson(Person person) {
+        EnemySelectPerson = person;
+    }
+
+    public void SetPlayerHp(byte hp)
+    { 
+        _playerHp.Value = hp;
+    }
+
+    public void SetEnemyHp(byte hp)
+    { 
+        _enemyHp.Value = hp; 
+    }
+
+    public void SetPlayerUsingSerum(bool set) { 
+        PlayerUsingSerum = set;
+    }
+
+    public void SetEnemyUsingSerum(bool set) { 
+        EnemyUsingSerum = set;
+    }
+
+    public void SetPlayerSleep(bool set) { 
+        PlayerSleep = set;
+    }
+
+    public void SetEnemySleep(bool set) { 
+        EnemySleep = set;
+    }
+
+
+    public void SetRound(byte round)
+    {
+        Round = round;
+    }
+
+    public void SetGameState(GameState state)
+    {
+        _nowGameState.Value = state;
     }
 }
 
