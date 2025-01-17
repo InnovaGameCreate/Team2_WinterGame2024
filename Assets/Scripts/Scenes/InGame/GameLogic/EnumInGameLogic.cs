@@ -3,10 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Person : byte { 
+    Player,
+    Enemy,
+}
+
 /// <summary>
 /// ボトル種類
 /// </summary>
-enum FlaskType : byte 
+public enum FlaskType : byte 
 { 
     Default,
     Water,
@@ -18,7 +23,7 @@ enum FlaskType : byte
 /// <summary>
 /// アイテム種類
 /// </summary>
-enum ItemType : byte
+public enum ItemType : byte
 { 
     Default,
     /// <summary>
@@ -46,7 +51,7 @@ enum ItemType : byte
 /// <summary>
 /// ゲームの進行状況
 /// </summary>
-enum GameState : byte{ 
+public enum GameState : byte{ 
     Default,
     StartGame,
     StartRound,
