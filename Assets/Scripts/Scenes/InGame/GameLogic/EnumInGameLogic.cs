@@ -55,6 +55,7 @@ public enum GameState : byte{
     Default,
     StartGame,
     StartRound,
+    StartRoop,
 
     PlayerTurnStart,
 

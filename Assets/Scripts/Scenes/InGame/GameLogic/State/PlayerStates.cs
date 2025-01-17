@@ -33,19 +33,25 @@ public class PlayerSelect : StateBase
     {
         _status.OnGameStateChange.Subscribe(x =>
         {
-            if (x == GameState.PlayerSelect)
+            if (_status.NowGameStateValue == GameState.PlayerSelect)
             {
-                if (_status.PlayerHpValue <= 0) {
+                Debug.Log("行動を選んでください、フラスコの残りの数" + _status.FlaskNum());
+                if (_status.PlayerHpValue <= 0)
+                {
                     Dead(_token);
                 }
             }
+            
         }).AddTo(_stateManager.gameObject);
 
         _commandManager.OnFlaskSelect.Subscribe(x =>
         {
-            //フラスコを選択した場合
-            _status.SetPlayerSelectFlask(x);
-            FlaskSelected(_token);
+            if (_status.NowGameStateValue == GameState.PlayerSelect)
+            {
+                //フラスコを選択した場合
+                _status.SetPlayerSelectFlask(x);
+                FlaskSelected(_token);
+            }
         }).AddTo(_stateManager.gameObject);
     }
 
@@ -99,38 +105,42 @@ public class PlayerSelectPerson : StateBase
     public override void AfterInit()
     {
         _commandManager.OnPersonSelect.Subscribe(x =>
-        {           
-            _status.SetPlayerSelectPerson(x);
-            if (x == Person.Player)
+        {
+            if (_status.NowGameStateValue == GameState.PlayerSelect)
             {
-                switch (_status.FlaskDatesValue[_status.PlayerSelectFlask].type) 
+                _status.SetPlayerSelectPerson(x);
+                if (x == Person.Player)
                 {
-                    case FlaskType.Water:
-                        PPWater(_token);
-                        break;
-                    case FlaskType.Poison:
-                        PPPoison(_token);
-                        break;
-                    case FlaskType.Random:
-                        Debug.LogWarning("ランダムフラスコ実装せよ");
-                        break;
+                    switch (_status.FlaskDatesValue[_status.PlayerSelectFlask].type)
+                    {
+                        case FlaskType.Water:
+                            PPWater(_token);
+                            break;
+                        case FlaskType.Poison:
+                            PPPoison(_token);
+                            break;
+                        case FlaskType.Random:
+                            Debug.LogWarning("ランダムフラスコ実装せよ");
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (_status.FlaskDatesValue[_status.PlayerSelectFlask].type)
+                    {
+                        case FlaskType.Water:
+                            PEWater(_token);
+                            break;
+                        case FlaskType.Poison:
+                            PEPoison(_token);
+                            break;
+                        case FlaskType.Random:
+                            Debug.LogWarning("ランダムフラスコ実装せよ");
+                            break;
+                    }
                 }
             }
-            else 
-            {
-                switch (_status.FlaskDatesValue[_status.PlayerSelectFlask].type)
-                {
-                    case FlaskType.Water:
-                        PEWater(_token);
-                        break;
-                    case FlaskType.Poison:
-                        PEPoison(_token);
-                        break;
-                    case FlaskType.Random:
-                        Debug.LogWarning("ランダムフラスコ実装せよ");
-                        break;
-                }
-            }
+
         }).AddTo(_stateManager.gameObject);
     }
 

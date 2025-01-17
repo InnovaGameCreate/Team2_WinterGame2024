@@ -21,7 +21,7 @@ public class StartGame : StateBase
 
     private async UniTaskVoid StateBehaviour(CancellationToken token) {
         await UniTask.Delay(100, cancellationToken: token);
-        Debug.Log("ゲーム開始");
+        Debug.Log("ゲーム開始しました");
         _status.SetRound(1);
         _status.SetGameState(GameState.StartRound);
     }
@@ -43,12 +43,49 @@ public class RoundStart : StateBase
     private async UniTaskVoid StateBehaviour(CancellationToken token)
     {
         await UniTask.Delay(100, cancellationToken: token);
-        ////////////////////////////////ここにフラスコの設置を行う
-        Debug.LogWarning("ランダムフラスコ実装せよ");
+        Debug.Log(_status.Round + "ラウンド開始しました ");
+        _status.SetGameState(GameState.StartRoop);
+    }
+}
 
+public class RoundRoop : StateBase
+{
+    public override void AfterInit()
+    {
+        _status.OnGameStateChange.Subscribe(x =>
+        {
+            if (x == GameState.StartRoop)
+            {
+                StateBehaviour(_token);
+            }
+        }).AddTo(_stateManager.gameObject);
+    }
 
+    private async UniTaskVoid StateBehaviour(CancellationToken token)
+    {
+        await UniTask.Delay(100, cancellationToken: token);
+        Debug.Log("ループ開始 ");
+        ///////////////////////////////////////ボトル生成
+        byte waterNum = (byte)UnityEngine.Random.Range(1,5);
+        byte poisonNum = (byte)UnityEngine.Random.Range(1, 5);
+        bool randomFlask = ((byte)UnityEngine.Random.Range(0, 4) == 0);
 
-        Debug.Log(_status.Round + "ラウンド開始 ");
+        _status.FlaskReset();//フラスコをリセット
+
+        for (byte i = 0; i < 9;i++) {
+            if (waterNum > 0) {
+                waterNum--;
+                _status.SetFlaskType(i, FlaskType.Water);
+            } else if (poisonNum > 0) {
+                poisonNum--;
+                _status.SetFlaskType(i, FlaskType.Poison);
+            } else if (randomFlask) { 
+                randomFlask = false;
+                _status.SetFlaskType(i, FlaskType.Random);
+            }
+        }
+        _status.FlasksShuffle();
+        Debug.LogWarning("ランダムを追加せよ");
         _status.SetGameState(GameState.PlayerTurnStart);
     }
 }

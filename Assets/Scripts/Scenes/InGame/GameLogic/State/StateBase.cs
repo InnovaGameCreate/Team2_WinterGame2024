@@ -24,6 +24,10 @@ public class StateBase
         _status = gameStatus;
         _commandManager = gameCommandManager;
         _token = token;
+
+
+
+
     }
 
     /// <summary>

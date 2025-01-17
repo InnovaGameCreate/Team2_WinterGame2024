@@ -175,6 +175,90 @@ public class GameStatus : MonoBehaviour
     public void AddScore(int score) { 
         _score.Value += score;
     }
+
+    /// <summary>
+    /// フラスコの種類を設定する
+    /// </summary>
+    /// <param name="index">対象が何番目であるか</param>
+    /// <param name="type">設定内容</param>
+    public void SetFlaskType(byte index, FlaskType type) {
+        _flaskDates[index]= new FlaskDate(_flaskDates[index].tested,type);
+    }
+
+    /// <summary>
+    /// フラスコを試験したかどうかを設定する
+    /// </summary>
+    /// <param name="index">対象が何番目であるか</param>
+    /// <param name="tested">設定内容</param>
+    public void SetFlaskTested(byte index,bool tested) {
+        _flaskDates[index] = new FlaskDate(tested, _flaskDates[index].type);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //＃＃＃＃＃＃＃＃＃＃＃＃＃＃便利な変数たち
+
+    /// <summary>
+    /// 残っているフラスコの数を受け取る
+    /// </summary>
+    /// <returns>フラスコの残っている数</returns>
+    public byte FlaskNum() {
+        byte num = 0;
+        for (byte i = 0; i <= 8;i++) {
+            if (FlaskDatesValue[i].type != FlaskType.None) { num++; }
+        }
+        return num;
+    }
+
+    /// <summary>
+    /// ランダムに内容の存在するフラスコを選びます
+    /// </summary>
+    /// <returns></returns>
+    public byte RandomMetFlaskNumber() {
+        byte pickNum = (byte)UnityEngine.Random.Range(0, FlaskNum());
+        byte num = 0;
+        for (byte i = 0; i <= 8; i++)
+        {
+            if (FlaskDatesValue[i].type != FlaskType.None) { pickNum--; }
+            if (pickNum < 0) {
+                num = i;
+                break;
+            }
+        }
+        return num;
+    }
+
+
+    /// <summary>
+    /// ランダムにフラスコの位置をシャッフルします
+    /// </summary>
+    public void FlasksShuffle() {
+        FlaskDate[] newArry = FlaskDatesValue.OrderBy(i => Guid.NewGuid()).ToArray();
+        for (byte i = 0;i < 9;i++) {
+            _flaskDates[i] = newArry[i];
+        }
+    }
+
+    /// <summary>
+    /// フラスコを全て消して試験状態をリセットする
+    /// </summary>
+    public void FlaskReset() {
+        for (byte i = 0; i < 9; i++)
+        {
+            _flaskDates[i] = new FlaskDate(false,FlaskType.None);
+        }
+    }
+
 }
 
 public struct FlaskDate 
@@ -186,5 +270,10 @@ public struct FlaskDate
     /// <summary>
     /// 種類
     /// </summary>
-    public FlaskType type;   
+    public FlaskType type;
+
+    public FlaskDate(bool setTested,FlaskType setFlaskType) { 
+        tested = setTested;
+        type = setFlaskType;
+    }
 }
