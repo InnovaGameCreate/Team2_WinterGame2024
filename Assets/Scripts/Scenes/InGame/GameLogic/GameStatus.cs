@@ -28,6 +28,11 @@ public class GameStatus : MonoBehaviour
     public Person EnemySelectDrink { get; }
 
 
+    public bool PlayerUsingSerum { get; }
+    public bool EnemyUsingSerum { get; }
+
+    public bool PlayerSleep { get;}
+    public bool EnemySleep { get; }
 
 
 
@@ -61,16 +66,16 @@ public class GameStatus : MonoBehaviour
     /// <summary>
     /// プレイヤーの残りHP
     /// </summary>
-    [SerializeField] private IntReactiveProperty _playerHp = new IntReactiveProperty();
-    public IObservable<int> OnPlayerHpChange { get { return _playerHp; } }
-    public int PlayerHpValue { get { return _playerHp.Value; } }
+    [SerializeField] private ByteReactiveProperty _playerHp = new ByteReactiveProperty();
+    public IObservable<Byte> OnPlayerHpChange { get { return _playerHp; } }
+    public byte PlayerHpValue { get { return _playerHp.Value; } }
 
     /// <summary>
     /// 敵の残りHP
     /// </summary>
-    [SerializeField] private IntReactiveProperty _enemyHp = new IntReactiveProperty();
-    public IObservable<int> OnEnemyrHpChange { get { return _enemyHp; } }
-    public int EnemyHpValue { get { return _enemyHp.Value; } }
+    [SerializeField] private ByteReactiveProperty _enemyHp = new ByteReactiveProperty();
+    public IObservable<byte> OnEnemyHpChange { get { return _enemyHp; } }
+    public byte EnemyHpValue { get { return _enemyHp.Value; } }
 
     /// <summary>
     /// スコア
