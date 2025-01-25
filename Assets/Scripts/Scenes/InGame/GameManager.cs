@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static bool isPlayerTurn = false;
+    public static bool isEnemyTurn = false;
     public static int round = 1;   // 3ラウンドまで
     public static int roop = 0;    // ループ、スコア計算用
     [SerializeField] private GameObject gameStart;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     public static GameObject infoObject; // 進行通知用
     public static Text infoText; // 進行通知用
     public static int isWin = 0;   // 勝利判定用(0=戦闘中、1=敗北、2=勝利、3=一定ラウンド経過、逃げ切った(引き分け)) (仮)
+    public static int remainingTime;
     void Start()
     {
         StartCoroutine(StartGame());
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(InfoDisplay("- Your Turn -", 1));
 
         timerText.SetActive(true);
-        int remainingTime = 10; // 10秒カウントダウン
+        remainingTime = 10; // 10秒カウントダウン
 
         while (remainingTime > 0)
         {
@@ -148,6 +150,8 @@ public class GameManager : MonoBehaviour
         countdownText.text = "TimeUp"; // 0秒でメッセージを表示
         Debug.Log("時間切れ");
         timerText.SetActive(false);
+        isPlayerTurn = false;
+        isEnemyTurn = true;
     }
 
     IEnumerator EnemyTurn()
@@ -157,8 +161,9 @@ public class GameManager : MonoBehaviour
         CameraChanger.CameraChange();
         yield return new WaitForSeconds(1);
         StartCoroutine(InfoDisplay("- Enemy's Turn -", 1));
-        // 敵のアクションを書く
-        yield return new WaitForSeconds(4.0f);   // 待機
+        yield return new WaitForSeconds(2);
+        isEnemyTurn = true;
+        isPlayerTurn = true;
     }
 
     // **フラスコをリセットするメソッド**
