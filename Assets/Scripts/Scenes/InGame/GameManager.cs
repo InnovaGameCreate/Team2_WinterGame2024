@@ -171,7 +171,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    
     public static IEnumerator InfoDisplay(string s, float x)
     {
         infoText.text = s;

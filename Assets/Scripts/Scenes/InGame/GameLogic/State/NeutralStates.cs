@@ -48,7 +48,7 @@ public class RoundStart : StateBase
     }
 }
 
-public class RoundRoop : StateBase
+public class RoopStart : StateBase
 {
     public override void AfterInit()
     {
