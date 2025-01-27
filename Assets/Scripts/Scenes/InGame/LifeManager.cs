@@ -70,11 +70,24 @@ public class LifeManager : MonoBehaviour
 
                         GiveButton.SetActive(true);
                         GetButton.SetActive(true);
-                        StartCoroutine(ChooseFlask(flaskNumber));
+                        which = 1;
+                        if (which == 1)
+                        {
+                            StartCoroutine(GameManager.InfoDisplay($"- You -", 3));
+                            MyFlaskResult(flaskNumber);
+                        }
+                        else if (which == 2)
+                        {
+                            StartCoroutine(GameManager.InfoDisplay($"- Enemy -", 3));
+                            EnemyFlaskResult(flaskNumber);
+                        }
 
-                            thatFlask.transform.position = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z); // ç¿ïWÇñﬂÇ∑
+                        thatFlask.transform.position = new Vector3(currentPosition.x, currentPosition.y, currentPosition.z); // ç¿ïWÇñﬂÇ∑
                             GiveButton.SetActive(false);
                             GetButton.SetActive(false);
+
+                        which = 0; 
+                        GameManager.isPlayerTurn = false;
                         }
                     }
                 }
