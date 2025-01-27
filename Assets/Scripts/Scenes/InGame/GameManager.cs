@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(InfoDisplay("- Your Turn -", 1));
 
         timerText.SetActive(true);
-        remainingTime = 10; // 10秒カウントダウン
+        remainingTime = 30; // 10秒カウントダウン
 
         while (remainingTime > 0)
         {
