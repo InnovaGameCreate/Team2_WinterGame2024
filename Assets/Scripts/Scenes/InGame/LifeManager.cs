@@ -1,12 +1,15 @@
+<<<<<<< Updated upstream
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
+=======
+>>>>>>> Stashed changes
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class LifeManager : MonoBehaviour
 {
+<<<<<<< Updated upstream
     [Tooltip("自分の体力")]
     public GameObject[] myLifeArray = new GameObject[4];
     public static int myLifePoint = 4;
@@ -108,6 +111,59 @@ public class LifeManager : MonoBehaviour
         if(enemyLifePoint <= 0)
         {
             GameManager.isWin = 2;  // 勝利
+=======
+    int myLife;
+    int enemyLife;
+    [SerializeField] private int startingLife = 4;
+    [SerializeField] private GameObject[] myLifeArray = new GameObject[4];
+    [SerializeField] private GameObject[] enemyLifeArray = new GameObject[4];
+
+    void Start()
+    {
+        myLife = startingLife;
+        enemyLife = startingLife;
+    }
+
+    public void ApplyPlayerDamage(int amount)
+    {
+        myLife -= amount;
+        Debug.Log($"Player takes {amount} damage. Remaining life: {myLife}");
+        // 必要に応じて UI 更新や敗北判定を実装
+    }
+
+    public void ApplyPlayerHeal(int amount)
+    {
+        myLife += amount;
+        Debug.Log($"Player heals {amount}. Life: {myLife}");
+        // UI 更新など
+    }
+
+    public void ApplyEnemyDamage(int amount)
+    {
+        enemyLife -= amount;
+        Debug.Log($"Enemy takes {amount} damage. Remaining life: {enemyLife}");
+        // UI 更新、敗北判定など
+    }
+
+    public void ApplyEnemyHeal(int amount)
+    {
+        enemyLife += amount;
+        Debug.Log($"Enemy heals {amount}. Life: {enemyLife}");
+        // UI 更新など
+    }
+
+    public void ResetLifes()
+    {
+        myLife = startingLife;
+        enemyLife = startingLife;
+        foreach (GameObject life in myLifeArray)
+        {
+            life.SetActive(true);
+        }
+        foreach (GameObject life in enemyLifeArray)
+        {
+            life.SetActive(true);
+>>>>>>> Stashed changes
         }
     }
 }

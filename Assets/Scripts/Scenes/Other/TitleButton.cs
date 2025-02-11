@@ -1,25 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class TitleButton : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    GameManager gameManager;
+    // タイトルシーンへ戻るボタンのクリック処理
     public void TitleStartClick()
     {
-        Debug.Log("タイトル画面に戻った");
+        Debug.Log("タイトル画面に戻る前にゲームをリセットする");
+        // まずゲームリセットを行う
+        gameManager.ResetGame();
+        // その後、タイトルシーンへ遷移する
         FadeManager.Instance.LoadScene("Title", 1.0f);
-        GameManager.ResetGame();
     }
 }

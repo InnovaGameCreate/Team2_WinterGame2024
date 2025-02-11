@@ -10,13 +10,16 @@ public class ResultManager : MonoBehaviour
     [SerializeField] private GameObject winMessage = null;
     [SerializeField] private GameObject loseMessage = null;
 
-    private string currentSceneName;
+    GameManager gameManager;
+
+    // 固定値ではなく Update 内で現在のシーンを確認するので不要
+    // private string currentSceneName;
     private bool messageDisplayed = false; // 一度だけ実行するためのフラグ
 
     void Awake()
     {
-        // シーン名を一度だけ取得
-        currentSceneName = SceneManager.GetActiveScene().name;
+        // 固定のシーン名取得は削除するか、必要なら OnSceneLoaded で更新する
+        // currentSceneName = SceneManager.GetActiveScene().name;
 
         // resultTextがInspectorで設定されていなければ、自動取得
         if (resultText == null && resultObject != null)
@@ -36,10 +39,12 @@ public class ResultManager : MonoBehaviour
 
     void Update()
     {
-        // "Result" シーン以外では何もしない
-        if (currentSceneName != "Result" || messageDisplayed) return;
+        // 現在のシーン名を毎回取得してチェックする
+        if (SceneManager.GetActiveScene().name != "Result" || messageDisplayed)
+            return;
 
-        switch (GameManager.isWin)
+        // GameDirector のインスタンス経由で勝敗結果を取得する
+        switch (GameManager.GameResult)
         {
             case 1:
                 DisplayResult(loseMessage, "- GAME OVER -");
@@ -65,7 +70,7 @@ public class ResultManager : MonoBehaviour
         messageDisplayed = true; // フラグを立てて再表示を防ぐ
         HideMessages(); // 他のメッセージを非表示
         messageObject.SetActive(true);
-        StartCoroutine(resultDisplay(message));
+        StartCoroutine(ResultDisplay(message));
     }
 
     private void HideMessages()
@@ -74,7 +79,7 @@ public class ResultManager : MonoBehaviour
         loseMessage.SetActive(false);
     }
 
-    IEnumerator resultDisplay(string message)
+    IEnumerator ResultDisplay(string message)
     {
         resultText.text = message;
         resultObject.SetActive(true);
@@ -84,10 +89,12 @@ public class ResultManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene loadedScene, LoadSceneMode mode)
     {
-        // "Result" シーン以外がロードされた場合に isWin をリセット
+        // "Result" シーン以外がロードされた場合に GameDirector の勝敗状態をリセット
         if (loadedScene.name != "Result")
         {
-            GameManager.isWin = 0;
+            gameManager.SetGameResult(0);
+            // メッセージ表示用のフラグもリセット（必要なら）
+            messageDisplayed = false;
         }
     }
 

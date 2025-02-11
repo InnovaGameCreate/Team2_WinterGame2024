@@ -1,10 +1,11 @@
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+<<<<<<< Updated upstream
     public static bool isPlayerTurn = false;
     public static int round = 1;   // 3ラウンドまで
     public static int roop = 0;    // ループ、スコア計算用
@@ -14,6 +15,21 @@ public class GameManager : MonoBehaviour
     public static GameObject infoObject; // 進行通知用
     public static Text infoText; // 進行通知用
     public static int isWin = 0;   // 勝利判定用(0=戦闘中、1=敗北、2=勝利、3=一定ラウンド経過、逃げ切った(引き分け)) (仮)
+=======
+    // ラウンド・ループ設定
+    private int totalRounds = 5;
+    private int currentRound = 1;
+    private int loopCount = 0;
+
+    /// 勝敗状態　0: 戦闘中, 1: 敗北, 2: 勝利, 3: 引き分け
+    public static int GameResult;
+
+    [SerializeField] private LifeManager lifeManager;
+    [SerializeField] private FlaskManager flaskManager;
+    // プレイヤー操作用のスクリプトを GameManager から参照
+    [SerializeField] private PlayerAction playerAction;
+
+>>>>>>> Stashed changes
     void Start()
     {
         StartCoroutine(StartGame());
@@ -21,137 +37,88 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        // 勝敗を判定
-        switch (isWin)
+        if (GameResult != 0)
         {
-            case 1:
-                Debug.Log("ゲームオーバー！");
-                FadeManager.Instance.LoadScene("Result", 0.3f);
-                break;
-            case 2:
-                Debug.Log("勝利！");
-                FadeManager.Instance.LoadScene("Result", 0.3f);
-                break;
-            case 3:
-                Debug.Log("引き分け");
-                FadeManager.Instance.LoadScene("Result", 0.3f);
-                break;
-        }
-    }
-
-    void Awake()
-    {
-        // infoObjectとinfoTextがnullの場合は初期化
-        if (infoObject == null)
-        {
-            infoObject = GameObject.Find("InfoObject"); // シーン内のオブジェクトを探して設定
-        }
-
-        if (infoText == null)
-        {
-            infoText = infoObject.GetComponentInChildren<Text>(); // infoObjectの子にTextコンポーネントを取得
+            Debug.Log("ゲーム終了 判定:" + GameResult);
+            FadeManager.Instance.LoadScene("Result", 0.3f);
         }
     }
 
     IEnumerator StartGame()
     {
-        gameStart.SetActive(true);
-        yield return new WaitForSeconds(3.0f);  // 3秒待機
-        gameStart.SetActive(false);
-
-        while (round <= 3)  // 1～3ラウンド
+        while (currentRound <= totalRounds)
         {
-            bool isExistFlask =IsExistFlask();
+            yield return StartCoroutine(RunRound());
+            if (GameResult != 0)
+                break;
 
-            while (IsExistFlask())
-            {
-                if (isExistFlask)
-                {
-                    yield return StartCoroutine(PlayerTurn()); // プレイヤーターン
+            // ラウンド終了時：フラスコ状態をリセット
+            flaskManager.ResetFlasks();
+            Debug.Log($"ラウンド {currentRound} 終了");
+            currentRound++;
 
-                    if (!IsExistFlask()) // フラスコがなくなったら敵に切り替え
-                    {
-                        CameraChanger.CameraChange();
-                        break;
-                    }
-                }
-                yield return StartCoroutine(EnemyTurn()); // 敵ターン
-                roop++;
-            }
-
-            // **ラウンドのリセット処理**
-            ResetFlaskStatus();
-            Debug.Log($"ラウンド {round} 終了");
-            round++; // ラウンドを進める
-
-            string roundName = "1st";
-            switch(round)
-            {
-                case 1:
-                    roundName = "1st"; break;
-                case 2:
-                    roundName = "2nd"; break;
-                case 3:
-                    roundName = "Final"; break;
-                default:
-                    break;
-            }
-
-            yield return new WaitForSeconds(1);
-            StartCoroutine(InfoDisplay($"- {roundName} Round -", 4));
-            yield return new WaitForSeconds(4);
-            Debug.Log($"Displaying round info: - {roundName} Round -");
+            // 次ラウンド開始前に、カメラがプレイヤー用に完全に切り替わるまで待機
+            yield return CameraChanger.SetPlayerTurnCameraCoroutine();
         }
 
-        // 3ラウンド終了時の動作
-        Debug.Log("リザルト画面に移動");
-        isWin = 3;  // 逃げ切った=引き分け
-        FadeManager.Instance.LoadScene("Result", 0.5f);
+        // 全ラウンド終了時は引き分け（逃げ切り）とする
+        SetGameResult(3);
     }
 
-    // 盤上にフラスコが残っているか調べる
-    bool IsExistFlask()
+    IEnumerator RunRound()
     {
-        for (int i = 0; i < 8; i++)
+        // 例：フラスコが残っている間、プレイヤーと敵が交互にターンを繰り返す
+        while (flaskManager.number > 0)
         {
-            if (LifeManager.flaskStatus[i] != 5)
-            {
-                return true; // フラスコが存在する
-            }
+            yield return StartCoroutine(PlayerTurn());
+            if (flaskManager.number == 0) break;
+            yield return StartCoroutine(EnemyTurn());
+            loopCount++;
         }
-        return false;
     }
 
     IEnumerator PlayerTurn()
     {
-        isPlayerTurn = true;
-        Debug.Log("プレイヤーのターン");
-        CameraChanger.CameraChange();
-        StartCoroutine(InfoDisplay("- Your Turn -", 1));
+        Debug.Log("プレイヤーのターン開始");
+        yield return CameraChanger.SetPlayerTurnCameraCoroutine();
 
+<<<<<<< Updated upstream
         timerText.SetActive(true);
         int remainingTime = 10; // 10秒カウントダウン
+=======
+        // 必要なら、プレイヤー操作を有効にする（例：内部フラグのリセットなど）
+        playerAction.EnableAction();
+>>>>>>> Stashed changes
 
-        while (remainingTime > 0)
+        // プレイヤー操作の完了を待つためのフラグ
+        bool turnCompleted = false;
+
+        // イベントの登録（PlayerAction.cs 側で、操作完了時に OnPlayerTurnCompleted イベントを発行する）
+        System.Action onTurnComplete = () => { turnCompleted = true; };
+        playerAction.OnPlayerTurnCompleted += onTurnComplete;
+
+        // プレイヤーの選択（クリック＋ボタン操作）が完了するまで待機
+        while (!turnCompleted)
         {
-            if (!isPlayerTurn)
-            {
-                Debug.Log("プレイヤーのターン終了");
-                timerText.SetActive(false);
-                yield break; // 即時終了
-            }
-            countdownText.text = remainingTime.ToString(); // UIに表示
-            yield return new WaitForSeconds(1f); // 1秒待機
-            remainingTime--;
+            yield return null;
         }
 
+<<<<<<< Updated upstream
         countdownText.text = "TimeUp"; // 0秒でメッセージを表示
         Debug.Log("時間切れ");
         timerText.SetActive(false);
+=======
+        // イベント登録解除
+        playerAction.OnPlayerTurnCompleted -= onTurnComplete;
+
+        Debug.Log("プレイヤーのターン終了");
+        // ※ 必要なら、選択結果に応じた追加処理をここで行う
+>>>>>>> Stashed changes
     }
 
     IEnumerator EnemyTurn()
     {
+<<<<<<< Updated upstream
         isPlayerTurn = false;
         Debug.Log("敵のターン");
         CameraChanger.CameraChange();
@@ -159,33 +126,24 @@ public class GameManager : MonoBehaviour
         StartCoroutine(InfoDisplay("- Enemy's Turn -", 1));
         // 敵のアクションを書く
         yield return new WaitForSeconds(4.0f);   // 待機
+=======
+        Debug.Log("敵のターン開始");
+        yield return CameraChanger.SetEnemyTurnCameraCoroutine();
+        // TODO: 敵ターンのロジックを実装
+        yield return new WaitForSeconds(2f);
+>>>>>>> Stashed changes
     }
 
-    // **フラスコをリセットするメソッド**
-    void ResetFlaskStatus()
+    public void SetGameResult(int result)
     {
-        for (int i = 0; i < 8; i++)
-        {
-            LifeManager.flaskStatus[i] = Random.Range(0, LifeManager.itemNumber);
-            LifeManager.flaskArray[i].SetActive(true);
-        }
+        GameResult = result;
     }
 
-    
-    public static IEnumerator InfoDisplay(string s, float x)
+    public void ResetGame()
     {
-        infoText.text = s;
-        infoObject.SetActive(true);
-        yield return new WaitForSeconds(x);
-        infoObject.SetActive(false);
-    }
-
-    public static void ResetGame()
-    {
-        GameManager.isWin = 0;
-        LifeManager.myLifePoint = 4;
-        LifeManager.enemyLifePoint = 4;
-        GameManager.round = 1;
-        GameManager.roop = 0;
+        GameResult = 0;
+        currentRound = 1;
+        loopCount = 0;
+        lifeManager.ResetLifes();
     }
 }
